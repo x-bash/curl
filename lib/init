@@ -65,7 +65,7 @@ ___x_cmd___curl___not_secure_get(){
     fi
 
     local code=0
-    ___x_cmd___curl_not_secure_request | ___x_cmd___curl___not_secure_request_handler "$file"| ___x_cmd_httpget_handle_resp_header "$file" "$code"
+    ___x_cmd___curl_not_secure_request | ___x_cmd___curl___not_secure_request_handler "$file"| ___x_cmd___curl_handle_resp_header "$file" "$code"
 }
 
 ___x_cmd___curl___download_curl(){
@@ -94,4 +94,23 @@ ___x_cmd___curl___download_curl(){
         return 1
     fi
     return 0
+}
+
+___x_cmd___curl_handle_resp_header(){
+    local url="${1:?Provide url}"
+    local code="${2:?Provide exit code of function ___x_cmd_httpget_inner}"
+
+    local http_code
+    http_code="$(awk 'NR==1{ printf("%s", $2); }')"
+    case "$http_code" in
+        20*)    return 0 ;;
+        40*)    x:debug "HTTP_CODE: $http_code. Fail to retrieve file from: $url"
+                return 4 ;;     # TODO: consider using exit code 70
+        "")     x:debug "Return code: $code. HTTP_CODE Unavialable. Fail to retrieve file from: $url"
+                return 1 ;;
+        5*)     x:debug "Return code: $code. Server internal error. Fail to retrieve file from: $url"
+                return 5 ;;     # TODO: consider using exit code 69
+        *)      x:debug "Unknow error. HTTP_CODE: $http_code. Fail to retrieve file from: $url"
+                return 2 ;;
+    esac
 }
