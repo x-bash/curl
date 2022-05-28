@@ -1,0 +1,24 @@
+
+
+___x_cmd_curl(){
+    case "$1" in
+        download)       ;;
+        get)            ;;
+        *)              ___x_cmd___curl_origin "$@" ;;
+    esac
+}
+
+___x_cmd___curl_origin(){
+    if command -v curl 2>/dev/null; then
+        ___x_cmd___curl_origin(){
+            command curl "$@"
+        }
+    elif
+        :
+    elif ! ___x_cmd_pkg_xbin_init curl ___x_cmd___curl_origin; then
+        x:error "Fail to pkg_xbin_init curl"
+        return 1
+    fi
+    ___x_cmd___curl_origin "$@"
+}
+
