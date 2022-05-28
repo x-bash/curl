@@ -13,7 +13,7 @@ ___x_cmd___curl_origin(){
             command curl "$@"
         }
         return
-    elif ( . "$___X_CMD_ROOT_MOD/lib/init"; ___x_cmd___curl___download_curl; ); then
+    elif ( . "$___X_CMD_ROOT_MOD/curl/lib/init"; ___x_cmd___curl___download_curl; ); then
         eval '
         ___x_cmd___curl_origin(){
             '"$HOME/.x-cmd/.bin/curl"' "$@"
