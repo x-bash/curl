@@ -1,5 +1,4 @@
 
-
 ___x_cmd_curl(){
     case "$1" in
         download)       ;;
@@ -13,12 +12,14 @@ ___x_cmd___curl_origin(){
         ___x_cmd___curl_origin(){
             command curl "$@"
         }
-    elif
-        :
-    elif ! ___x_cmd_pkg_xbin_init curl ___x_cmd___curl_origin; then
-        x:error "Fail to pkg_xbin_init curl"
-        return 1
+        return
+    elif ( . "$___X_CMD_ROOT_MOD/lib/init"; ___x_cmd___curl___download_curl; ); then
+        eval '
+        ___x_cmd___curl_origin(){
+            '"$HOME/.x-cmd/.bin/curl"' "$@"
+        }
+        '
+    else
+        x:error "Fail to download curl."
     fi
-    ___x_cmd___curl_origin "$@"
 }
-
