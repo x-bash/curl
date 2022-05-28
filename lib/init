@@ -85,11 +85,11 @@ ___x_cmd_http___download_curl(){
         aarch64|arm64)         sha="20f22526b1af8433ebd8d0e94a969343b4d51484335bd3123caf784fd62b095f";;
     esac
     if [ ! -e "$target/$app" ];then
-        mkdir -p "$target"
+        x mkdirp "$target"
         ___x_cmd_http___not_secure_get "http://$url/$app.tar.gz" "$target/$app.tar.gz" 2>/dev/stdout || return 1
         local tarsha
         tarsha="$(x sha256sum "$target"/"$app".tar.gz)"
-        [ "$sha" = "${tarsha%% *}" ] && tar zxvf "$target/$app.tar.gz" -C "$target" && return 0
+        [ "$sha" = "${tarsha}" ] && tar zxvf "$target/$app.tar.gz" -C "$target" && return 0
         x:error "$app sha256 match fail"
         return 1
     fi
