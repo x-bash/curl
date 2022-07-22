@@ -14,7 +14,7 @@ ___x_cmd___curl_origin(){
     if command -v curl 2>/dev/null; then
         eval '
         ___x_cmd___curl_origin(){
-            command curl "$@"
+            PATH="$___X_CMD_INNER_PATH" command curl "$@"
         }
         '
     elif ( . "$___X_CMD_ROOT_MOD/curl/lib/init"; ___x_cmd___curl___download_curl; ); then
