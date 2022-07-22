@@ -11,7 +11,7 @@ ___x_cmd_curl(){
 }
 
 ___x_cmd___curl_origin(){
-    if command -v curl 2>/dev/null; then
+    if PATH="$___X_CMD_INNER_PATH" command -v curl 2>/dev/null; then
         eval '
         ___x_cmd___curl_origin(){
             PATH="$___X_CMD_INNER_PATH" command curl "$@"
